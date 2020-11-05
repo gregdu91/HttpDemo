@@ -3,9 +3,7 @@ package com.example.httpdemo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.*
 import java.io.IOException
 
 
@@ -26,12 +24,31 @@ class MainActivity : AppCompatActivity() {
 
         val request = Request.Builder().url(url).build()
 
-        val client = OkHttpClient
+        val client = OkHttpClient()
 
-        client.newCall(request).enqueue(object : Callback) {
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                TODO("Not yet implemented")
 
-        override fun onFailure(call: Call, e: IOException)
-        }
+                println("FAiled to load json")
+
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                TODO("Not yet implemented")
+
+                println("successfully loaded json")
+
+                val body = response?.body?.string()
+                println(body)
+
+                if (body != null) {
+                    Log.i("HTTPDEMO", body)
+
+                }
+            }
+
+        })
 
     }
 }
